@@ -1,22 +1,28 @@
 package com.zhangmh.whatmobilemanager;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.zhangmh.Utils.HttpUtils;
+import com.zhangmh.application.Myapplication;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -32,10 +38,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class SplashActivity extends ActionBarActivity {
+public class SplashActivity extends Activity {
 
     private static final int MSG_OK = 1;
+    private static final int MSG_SERVER_ERROR = 2;
+    private static final int MSG_URL_ERROR =3 ;
+    private static final int MSG_IO_ERROR =4 ;
+    private static final int MSG_TIMEOUT =5 ;
     private static String Deman="http://192.168.3.77/Day10hw/";
+    private ProgressBar pb_splash_update;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +64,34 @@ public class SplashActivity extends ActionBarActivity {
             }
         }).start();
 
+        TextView tv_splash_version= (TextView) findViewById(R.id.tv_splash_version);
+        tv_splash_version.setText("version"+getVersion());
+        pb_splash_update = (ProgressBar) findViewById(R.id.pb_splash_update);
 
-        //该处缺少判断设置中是否自动检查更新的判断代码，后面需补
-        getLatestVersion();
+
+        Myapplication application = (Myapplication) getApplication();
+        SharedPreferences setting_sp = application.getSetting_sp();
+        boolean autoUpdate = setting_sp.getBoolean("autoUpdate", true);
+        if(autoUpdate){
+            getLatestVersion();
+        }else {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Message msg=handler.obtainMessage();
+                    msg.what=MSG_TIMEOUT;
+                    handler.sendMessage(msg);
+                    //5s后跳到主页，这里有代码
+                }
+            }).start();
+        }
+
+
     }
     //主线程消息处理handler
     Handler handler=new Handler(){
@@ -78,9 +114,27 @@ public class SplashActivity extends ActionBarActivity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Toast.makeText(SplashActivity.this,"错误号jason10",Toast.LENGTH_SHORT).show();
+                            enterHome();
                         }
                     }
                     break;
+                case MSG_IO_ERROR:
+                    Toast.makeText(SplashActivity.this,"网络没有连接",Toast.LENGTH_SHORT).show();
+                    enterHome();
+                    break;
+                case MSG_SERVER_ERROR:
+                    Toast.makeText(SplashActivity.this,"服务器异常",Toast.LENGTH_SHORT).show();
+                    enterHome();
+                    break;
+                case MSG_URL_ERROR:
+                    Toast.makeText(SplashActivity.this,"错误号URL"+MSG_URL_ERROR,Toast.LENGTH_SHORT).show();
+                    enterHome();
+                    break;
+                case MSG_TIMEOUT:
+                    enterHome();
+                    break;
+
             }
         }
     };
@@ -92,26 +146,35 @@ public class SplashActivity extends ActionBarActivity {
             @Override
             public void run() {
                 super.run();
+                Message msg=handler.obtainMessage();
                 try {
                     URL url=new URL(Deman+"version.json");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
-                    conn.setConnectTimeout(10000);
-                    conn.setReadTimeout(10000);
+                    conn.setConnectTimeout(5000);
+                    conn.setReadTimeout(5000);
                     conn.connect();
                     int responseCode = conn.getResponseCode();
                     if(responseCode==200){
                         Log.v("hw2","responseCode==200");
                         InputStream is = conn.getInputStream();
-                        Message msg=handler.obtainMessage();
                         msg.what=MSG_OK;
                         msg.obj=is;
-                        handler.sendMessage(msg);
+
+                    }else {
+                        msg.what=MSG_SERVER_ERROR;
                     }
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
+                    msg.what=MSG_URL_ERROR;
+
                 } catch (IOException e) {
                     e.printStackTrace();
+                    msg.what=MSG_IO_ERROR;
+
+                }
+                finally {
+                    handler.sendMessage(msg);
                 }
             }
         }.start();
@@ -150,6 +213,7 @@ public class SplashActivity extends ActionBarActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //直接进入首页，代码待填写
+                                enterHome();
                             }
                         })
                         .show();
@@ -157,6 +221,7 @@ public class SplashActivity extends ActionBarActivity {
             else{
                 Toast.makeText(this,"已经是最新版本",Toast.LENGTH_LONG).show();
                 //直接进入首页，代码待填
+                enterHome();
             }
         }
     }
@@ -174,35 +239,41 @@ public class SplashActivity extends ActionBarActivity {
             super.onSuccess(statusCode, headers, responseBody);
             if(statusCode==200){
                 Log.v("hw2","statusCode==200");
-                File file=new File(Environment.getExternalStorageDirectory()+"/newrelease.apk");
-                FileOutputStream fos=null;
-                try {
-                    fos=new FileOutputStream(file);
-                    fos.write(responseBody,0,responseBody.length);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                finally {
-                    if(fos!=null){
-                        try {
-                            fos.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
+                    File file=new File(Environment.getExternalStorageDirectory()+"/newrelease.apk");
+                    FileOutputStream fos=null;
+                    try {
+                        pb_splash_update.setVisibility(View.VISIBLE);
+                        fos=new FileOutputStream(file);
+                        fos.write(responseBody,0,responseBody.length);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    finally {
+                        if(fos!=null){
+                            try {
+                                fos.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
+
+                    if (file.exists()){
+                        //调用系统来安装
+                        Intent intent =new Intent();
+                        intent.setAction("android.intent.action.VIEW");
+                        intent.addCategory("android.intent.category.DEFAULT");
+                        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+                        startActivityForResult(intent, 100);
+
+                    }
+                }else {
+                    Toast.makeText(SplashActivity.this,"sd卡异常",Toast.LENGTH_LONG).show();
                 }
 
-                if (file.exists()){
-                    //调用系统来安装
-                    Intent intent =new Intent();
-                    intent.setAction("android.intent.action.VIEW");
-                    intent.addCategory("android.intent.category.DEFAULT");
-                    intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
-                    startActivity(intent);
-
-                }
             }
         }
 
@@ -210,7 +281,33 @@ public class SplashActivity extends ActionBarActivity {
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
             super.onFailure(statusCode, headers, responseBody, error);
             Toast.makeText(SplashActivity.this,"获取资源失败",Toast.LENGTH_LONG).show();
+            enterHome();
+        }
+
+        @Override
+        public void onProgress(int bytesWritten, int totalSize) {
+            super.onProgress(bytesWritten, totalSize);
+            pb_splash_update.setMax(totalSize);
+            pb_splash_update.setProgress(bytesWritten);
         }
     };
 
+
+    //去主页
+    public void enterHome(){
+
+        startActivity(new Intent(this,Home.class));
+        finish();
+    }
+
+    //取消安装的话，直接进入主页
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_CANCELED){
+            enterHome();
+        }
+    }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:SettingItems="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.zhangmh.view.SettingItems
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/si_setting_update"
+        android:background="@drawable/settingbg"
+        SettingItems:itemtitle="自动更新"
+        SettingItems:onString="自动更新打开"
+        SettingItems:offString="自动更新取消"
+        SettingItems:spKeyname="autoUpdate">
+    </com.zhangmh.view.SettingItems>
+
+</LinearLayout>

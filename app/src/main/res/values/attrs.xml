@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SettingItems">
+        <attr name="itemtitle" format="string"/>
+        <attr name="onString" format="string"/>
+        <attr name="offString" format="string"/>
+        <attr name="spKeyname" format="string"/>
+    </declare-styleable>
+</resources>

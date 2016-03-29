@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zhangmh.application.Myapplication;
+import com.zhangmh.whatmobilemanager.Home;
 import com.zhangmh.whatmobilemanager.R;
 import com.zhangmh.whatmobilemanager.Setting;
 
@@ -19,7 +20,7 @@ import com.zhangmh.whatmobilemanager.Setting;
  * Created by coins on 2016/3/25.
  */
 public class SettingItems extends RelativeLayout implements View.OnClickListener{
-    Setting mSetting;
+
     private Myapplication application;
     private SharedPreferences setting_sp;
     private SharedPreferences.Editor edit;
@@ -30,6 +31,7 @@ public class SettingItems extends RelativeLayout implements View.OnClickListener
     private String onString;
     private String offString;
     private String spKeyname;
+    private MyOnclickListener myOnclickListener;
 
     public SettingItems(Context context) {
         super(context);
@@ -45,8 +47,7 @@ public class SettingItems extends RelativeLayout implements View.OnClickListener
 
     public void init(AttributeSet attrs){
 
-        mSetting=  Setting.getmActivity();
-        application = (Myapplication) mSetting.getApplication();
+        application = Home.getMyapplication();
         setting_sp = application.getSetting_sp();
         View inflate = View.inflate(getContext(), R.layout.setting_item_content, null);
         tv_setting_title = (TextView) inflate.findViewById(R.id.tv_setting_title);
@@ -65,6 +66,7 @@ public class SettingItems extends RelativeLayout implements View.OnClickListener
             if(checked){
                 tv_setting_state.setText(onString);
                 cb_setting_ischecked.setChecked(true);
+
             }else {
                 tv_setting_state.setText(offString);
                 cb_setting_ischecked.setChecked(false);
@@ -82,19 +84,33 @@ public class SettingItems extends RelativeLayout implements View.OnClickListener
         boolean checked = cb_setting_ischecked.isChecked();
         Log.v("hw2",checked+"onClick");
         if(checked){
-            Log.v("hw2",checked+"t");
+            if(myOnclickListener!=null){
+                myOnclickListener.unbindSIMOnclick();
+            }
             cb_setting_ischecked.setChecked(false);
             tv_setting_state.setText(offString);
             edit.putBoolean(spKeyname, false);
             edit.commit();
         }else {
-            Log.v("hw2",checked+"f");
+            if(myOnclickListener!=null){
+                myOnclickListener.bindSIMOnclick();
+            }
             cb_setting_ischecked.setChecked(true);
             tv_setting_state.setText(onString);
             edit.putBoolean(spKeyname, true);
             edit.commit();
         }
 
+    }
+
+
+    //写一个sim卡绑定的组合控件的一个借口，里面有绑定和解绑有个方法
+    public interface MyOnclickListener{
+        void bindSIMOnclick();
+        void unbindSIMOnclick();
+    }
+    public void getMyOnclickListener(MyOnclickListener mol){
+        myOnclickListener=mol;
     }
 
 }

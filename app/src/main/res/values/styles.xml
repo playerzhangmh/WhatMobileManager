@@ -11,7 +11,37 @@
         <item name="android:padding">15dp</item>
         <item name="android:background">#AEFF75</item>
         <item name="android:textSize">40dp</item>
+    </style>
+    <!--  <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="功能简介"
+        android:textSize="20dp"
+        android:padding="10dp"/>-->
+    <style name="myGuardatSetupUp">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <!--<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GPS追踪"
+        android:textSize="20dp"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:drawableLeft="@android:drawable/btn_star_big_on"/>-->
+    <style name="myGuardatSetupDown">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawableLeft">@android:drawable/btn_star_big_on</item>
 
     </style>
+
 
 </resources>

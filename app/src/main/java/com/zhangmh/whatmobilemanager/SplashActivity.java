@@ -13,7 +13,9 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.test.UiThreadTest;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -52,17 +54,6 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                //5s后跳到主页，这里有代码
-            }
-        }).start();
 
         TextView tv_splash_version= (TextView) findViewById(R.id.tv_splash_version);
         tv_splash_version.setText("version"+getVersion());
@@ -310,4 +301,11 @@ public class SplashActivity extends Activity {
             enterHome();
         }
     }
+
+
+  /*  @Override只有物理按键才有作用
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.v("hw2",keyCode+"aaaaaaaaaaaaaa");
+        return false;
+    }*/
 }

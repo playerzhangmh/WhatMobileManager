@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WhatMobileManager</string>
+    <string name="sample_device_admin_description">我们将会获得超级强大的功能，嘿嘿</string>
+    <string name="sample_device_admin">超级管理员权限</string>
 </resources>

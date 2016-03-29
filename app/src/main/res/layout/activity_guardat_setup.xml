@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zhangmh.whatmobilemanager.GuardatSetup">
+    <TextView
+        style="@style/mytitlestyle"
+        android:text="手机防盗"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/myGuardatSetupUp"
+            android:layout_width="wrap_content"
+            android:text="安全号码"
+           />
+        <TextView
+            style="@style/myGuardatSetupUp"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="待删除"
+            android:id="@+id/tv_Guardat_safeNum"
+            />
+    </RelativeLayout>
+    <TextView
+        style="@style/myGuardatSetupUp"
+        android:text="防盗保护是否开启"
+        android:gravity="center_vertical"
+        android:drawableRight="@drawable/unlock"
+        android:id="@+id/tv_Guardat_startGuard"/>
+
+
+    <TextView
+        android:text="重新进入设置向导"
+        style="@style/myGuardatSetupUp"
+        android:id="@+id/tv_Guardat_setupAgain"/>
+    <TextView
+        style="@style/myGuardatSetupUp"
+        android:text="功能简介"
+        android:background="@android:color/darker_gray"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/myGuardatSetupDown"
+            android:text="GPS追踪:#*location*#"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/iv_guardat_gps"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/myGuardatSetupDown"
+            android:text="播放报警音乐:#*alarm*#"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/iv_guardat_alarm"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/myGuardatSetupDown"
+            android:text="远程删除数据:#*wipedata*#"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/iv_guardat_wipedata"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/myGuardatSetupDown"
+            android:text="远程锁屏:#*lockscreen*#"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/iv_guardat_lockscreen"
+            />
+    </RelativeLayout>
+
+
+
+</LinearLayout>

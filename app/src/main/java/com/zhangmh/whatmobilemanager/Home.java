@@ -33,12 +33,16 @@ public class Home extends ActionBarActivity {
     R.raw.trojan,R.raw.sysoptimize,R.raw.atools,R.raw.settings};
     private SharedPreferences setting_sp;
     private SharedPreferences.Editor editor;
+    private static Myapplication myapplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        //在这里我就直接获取myapplication，给SettingItem用，避免空引用
+
+        myapplication= (Myapplication) getApplication();
         //隐藏actionbar
         ActionBar supportActionBar = getSupportActionBar();
         supportActionBar.hide();
@@ -205,6 +209,10 @@ public class Home extends ActionBarActivity {
                 alertDialog.dismiss();
             }
         });
+    }
+
+    public static Myapplication getMyapplication(){
+        return myapplication;
     }
 
 }

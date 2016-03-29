@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zhangmh.whatmobilemanager.AdvanceTool">
+    <TextView
+        style="@style/mytitlestyle"
+        android:text="高级工具"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="手机归属地查询"
+        android:textSize="20dp"
+        android:background="@drawable/btn_green_normal"
+        android:id="@+id/bt_advanceTool_queryPhoneLocation"/>
+</LinearLayout>

@@ -2,6 +2,7 @@ package com.zhangmh.whatmobilemanager;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
+import android.util.Log;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
@@ -9,5 +10,7 @@ import android.test.ApplicationTestCase;
 public class ApplicationTest extends ApplicationTestCase<Application> {
     public ApplicationTest() {
         super(Application.class);
+        Log.i("hw2","aaaaaaaaaaaaaaaa");
+
     }
 }

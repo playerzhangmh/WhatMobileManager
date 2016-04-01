@@ -83,8 +83,7 @@ public class GuardatSetup3 extends MybaseSetup {
             //一种是直接访问其数据库
 
             Intent intent=new Intent(GuardatSetup3.this,ContactsList.class);
-            startActivity(intent);
-            finish();
+            startActivityForResult(intent, 200);
         }
     };
 
@@ -92,7 +91,7 @@ public class GuardatSetup3 extends MybaseSetup {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 /*
-        if(requestCode==100&&data!=null){
+        if(requestCode==200&&data!=null){
             Uri data1 = data.getData();
             Cursor cursor = getContentResolver().query(data1, new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
             cursor.moveToNext();
@@ -100,8 +99,11 @@ public class GuardatSetup3 extends MybaseSetup {
             String number = cursor.getString(column);
             et_guardatSP3_safeNum.setText(number);
         }*/
-        if(requestCode==100&&data!=null){
+        Log.v("hw2","我也在这里");
+
+        if(requestCode==200&&data!=null){
             if(resultCode==1000){
+                Log.v("hw2","我在这里");
                 String num = data.getStringExtra("num");
                 et_guardatSP3_safeNum.setText(num);
 

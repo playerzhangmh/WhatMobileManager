@@ -2,6 +2,7 @@ package com.zhangmh.view;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zhangmh.application.Myapplication;
+import com.zhangmh.service.MytelenumLoctionService;
 import com.zhangmh.whatmobilemanager.Home;
 import com.zhangmh.whatmobilemanager.R;
 import com.zhangmh.whatmobilemanager.Setting;
@@ -26,6 +28,9 @@ public class SettingItems extends RelativeLayout implements View.OnClickListener
     private SharedPreferences.Editor edit;
     private TextView tv_setting_title;
     private TextView tv_setting_state;
+
+
+
     private CheckBox cb_setting_ischecked;
     private String itemtitle;
     private String onString;
@@ -75,18 +80,30 @@ public class SettingItems extends RelativeLayout implements View.OnClickListener
           //  View activity_setting=View.inflate(getContext(), R.layout.activity_setting, null);
          //    LinearLayout viewById = (LinearLayout) activity_setting.findViewById(R.id.zanshi);
           //  viewById.addView(this);
-            setOnClickListener(this);
+            setOnClickListener(null);
         }
+    }
+
+    @Override
+    public void setOnClickListener(OnClickListener l) {
+        super.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         boolean checked = cb_setting_ischecked.isChecked();
-        Log.v("hw2",checked+"onClick");
+        Log.v("hw2", checked + "onClick");
         if(checked){
+            //绑定SIM卡的判断
             if(myOnclickListener!=null){
                 myOnclickListener.unbindSIMOnclick();
             }
+            //开启或关闭显示归属地服务的判断
+            if(itemtitle.equals("号码归属地")){
+                Log.v("hw2","itemtitle");
+                application.stopService(new Intent(Home.getMyapplication(), MytelenumLoctionService.class));
+            }
+
             cb_setting_ischecked.setChecked(false);
             tv_setting_state.setText(offString);
             edit.putBoolean(spKeyname, false);
@@ -94,6 +111,10 @@ public class SettingItems extends RelativeLayout implements View.OnClickListener
         }else {
             if(myOnclickListener!=null){
                 myOnclickListener.bindSIMOnclick();
+            }
+            if(itemtitle.equals("号码归属地")){
+                Log.v("hw2","itemtitlefalse");
+                application.startService(new Intent(Home.getMyapplication(), MytelenumLoctionService.class));
             }
             cb_setting_ischecked.setChecked(true);
             tv_setting_state.setText(onString);
@@ -103,6 +124,13 @@ public class SettingItems extends RelativeLayout implements View.OnClickListener
 
     }
 
+    //写一个可以通过该空间实例调用的方法，给归属地显示的服务用
+    public void systemStopedService(){
+        cb_setting_ischecked.setChecked(false);
+        tv_setting_state.setText(offString);
+        edit.putBoolean(spKeyname, false);
+        edit.commit();
+    }
 
     //写一个sim卡绑定的组合控件的一个借口，里面有绑定和解绑有个方法
     public interface MyOnclickListener{

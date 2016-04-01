@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zhangmh.whatmobilemanager.MyPackageManager">
+    <TextView
+       style="@style/mytitlestyle"
+        android:text="软件管理"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/myStoragestle"
+            android:text="手机可用空间"
+            />
+        <TextView
+           style="@style/myStoragestle"
+            android:text="SD卡可用空间" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/myStoragestle"
+            android:text="手机可用空间"
+            android:id="@+id/tv_mypackageManager_romstorage"
+            android:textSize="15dp"
+            />
+        <TextView
+            style="@style/myStoragestle"
+            android:textSize="15dp"
+            android:id="@+id/tv_mypackageManager_sdstorage"
+            android:text="SD卡可用空间" />
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lv_mypackageManager_app"></ListView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#CCCCCC"
+            android:textSize="20sp"
+            android:id="@+id/tv_mypackageManager_appnum"
+            />
+    </FrameLayout>
+
+
+
+
+</LinearLayout>

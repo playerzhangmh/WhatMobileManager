@@ -28,7 +28,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Home" />
+        <activity
+            android:name=".Home"
+            android:launchMode="singleTask" />
         <activity android:name=".Setting" />
         <activity android:name=".GuardagainestThief" />
         <activity android:name=".GuardatSetup1" />
@@ -64,7 +66,13 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".AdvanceTool"></activity>
+        <activity android:name=".AdvanceTool" />
+        <activity android:name=".QueryTelenumLocation" />
+
+        <service android:name="com.zhangmh.service.MytelenumLoctionService" />
+
+        <activity android:name=".LocationShowSpaceSet" />
+        <activity android:name=".MyPackageManager"></activity>
     </application>
 
 </manifest>

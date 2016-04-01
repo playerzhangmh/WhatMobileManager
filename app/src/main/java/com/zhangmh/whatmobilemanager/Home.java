@@ -106,6 +106,7 @@ public class Home extends ActionBarActivity {
                case 1:
                    break;
                case 2:
+                   startActivity(new Intent(Home.this,MyPackageManager.class));
                    break;
                case 3:
                    break;
@@ -116,6 +117,7 @@ public class Home extends ActionBarActivity {
                case 6:
                    break;
                case 7:
+                   startActivity(new Intent(Home.this,AdvanceTool.class));
                    break;
                case 8:
                    startActivity(new Intent(Home.this,Setting.class));
@@ -215,4 +217,9 @@ public class Home extends ActionBarActivity {
         return myapplication;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+       Toast.makeText(this,"我们将继续为您服务",Toast.LENGTH_SHORT).show();
+    }
 }

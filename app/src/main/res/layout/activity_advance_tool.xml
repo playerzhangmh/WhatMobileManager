@@ -14,5 +14,5 @@
         android:text="手机归属地查询"
         android:textSize="20dp"
         android:background="@drawable/btn_green_normal"
-        android:id="@+id/bt_advanceTool_queryPhoneLocation"/>
+        android:onClick="queryPhoneLocation" />
 </LinearLayout>

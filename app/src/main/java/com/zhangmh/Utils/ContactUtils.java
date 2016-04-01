@@ -22,7 +22,7 @@ public class ContactUtils {
         if(cursor!=null){
             while (cursor.moveToNext()){
                 int contact_id = cursor.getInt(0);
-                Cursor cursor2 = contentResolver.query(Uri.parse("content://com.android.contacts/raw_contacts"), new String[]{"data1", "mimetype"}, "contact_id=?", new String[]{contact_id + ""}, null);
+                Cursor cursor2 = contentResolver.query(Uri.parse("content://com.android.contacts/data"), new String[]{"data1", "mimetype"}, "contact_id=?", new String[]{contact_id + ""}, null);
 
                 ContactItem contactItem=new ContactItem();
                 while (cursor2.moveToNext()){

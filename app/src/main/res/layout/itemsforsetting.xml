@@ -15,5 +15,15 @@
         SettingItems:offString="自动更新取消"
         SettingItems:spKeyname="autoUpdate">
     </com.zhangmh.view.SettingItems>
+    <com.zhangmh.view.SettingItems
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/si_setting_showLocation"
+        android:background="@drawable/settingbg"
+        SettingItems:itemtitle="号码归属地"
+        SettingItems:onString="显示号码归属地"
+        SettingItems:offString="号码归属地不显示"
+        SettingItems:spKeyname="autoshowLocation">
+    </com.zhangmh.view.SettingItems>
 
 </LinearLayout>

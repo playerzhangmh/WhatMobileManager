@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
@@ -80,10 +81,54 @@ public class SplashActivity extends Activity {
                     //5s后跳到主页，这里有代码
                 }
             }).start();
+
+            //在这段时间里去把asset目录下的dbcopy到应用目录下
+            copyDB();
         }
 
 
     }
+
+    private void copyDB() {
+        File file=new File(getFilesDir()+"/naddress.db");
+        if(file.exists()){
+            return;
+        }
+        FileOutputStream fos=null;
+        AssetManager assets = getAssets();
+        InputStream open =null;
+        try {
+            open = assets.open("naddress.db");
+            fos=new FileOutputStream(file);
+            byte[] b=new byte[1024];
+            int len=-1;
+            while ((len=open.read(b))!=-1){
+                fos.write(b,0,len);
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            if(open!=null){
+                try {
+                    open.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(fos!=null){
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     //主线程消息处理handler
     Handler handler=new Handler(){
         @Override

@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
 
     <application
         android:name="com.zhangmh.application.Myapplication"
@@ -72,7 +74,19 @@
         <service android:name="com.zhangmh.service.MytelenumLoctionService" />
 
         <activity android:name=".LocationShowSpaceSet" />
-        <activity android:name=".MyPackageManager"></activity>
+        <activity android:name=".MyPackageManager" />
+
+        <provider
+            android:name="com.zhangmh.contentprovider.MyContentProvider"
+            android:authorities="com.zhangmh.lockedappmanager" />
+
+        <activity
+            android:name=".PackageLockSpace"
+            android:launchMode="singleInstance" />
+
+        <service android:name="com.zhangmh.service.Mywatchappstart" />
+
+        <activity android:name=".MyProcessManager"></activity>
     </application>
 
 </manifest>

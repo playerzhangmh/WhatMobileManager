@@ -1,15 +1,13 @@
 package com.zhangmh.whatmobilemanager;
 
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -34,6 +32,7 @@ public class Home extends ActionBarActivity {
     private SharedPreferences setting_sp;
     private SharedPreferences.Editor editor;
     private static Myapplication myapplication;
+    private static Home home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +41,7 @@ public class Home extends ActionBarActivity {
 
         //在这里我就直接获取myapplication，给SettingItem用，避免空引用
 
+        home = this;
         myapplication= (Myapplication) getApplication();
         //隐藏actionbar
         ActionBar supportActionBar = getSupportActionBar();
@@ -97,7 +97,7 @@ public class Home extends ActionBarActivity {
                    //弹出对话，根据配置文件，若有密码则验证密码，没有则设置密码
                    String guardAgainstThief = setting_sp.getString("GuardAgainstThief", "");
                    if(guardAgainstThief.isEmpty()){
-                       setPasswordforGuardatDialog();
+                       setPasswordforGuardatDialog("GuardAgainstThief", R.layout.guardat_setpwd);
                    }else {
                        validatePasswordforGuardatDialog();
                    }
@@ -172,10 +172,11 @@ public class Home extends ActionBarActivity {
 
     }
 
-    private void setPasswordforGuardatDialog() {
+    public void setPasswordforGuardatDialog(String GuardAgainstThief,int Rlayoutid) {
 
+        final String TAG=GuardAgainstThief;
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
-        LinearLayout guardat_setpwd = (LinearLayout) View.inflate(this, R.layout.guardat_setpwd, null);
+        LinearLayout guardat_setpwd = (LinearLayout) View.inflate(this,Rlayoutid, null);
         final EditText et_guardat_setpwd = (EditText) guardat_setpwd.findViewById(R.id.et_guardat_setpwd);
         final EditText et_guardat_confirmpwd = (EditText) guardat_setpwd.findViewById(R.id.et_guardat_confirmpwd);
         Button bt_guardat_validate = (Button) guardat_setpwd.findViewById(R.id.bt_guardat_validate);
@@ -193,7 +194,7 @@ public class Home extends ActionBarActivity {
                 String confirmpwd = et_guardat_confirmpwd.getText().toString();
                 if(!setpwd.isEmpty()&&!confirmpwd.isEmpty()){
                     if(setpwd.equals(confirmpwd)){
-                        editor.putString("GuardAgainstThief", Md5Utils.encrypt(setpwd));
+                        editor.putString(TAG, Md5Utils.encrypt(setpwd));
                         editor.commit();
                         alertDialog.dismiss();
                     }else {
@@ -215,6 +216,9 @@ public class Home extends ActionBarActivity {
 
     public static Myapplication getMyapplication(){
         return myapplication;
+    }
+    public  static Home getHome(){
+        return home;
     }
 
     @Override

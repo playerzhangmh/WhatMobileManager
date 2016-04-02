@@ -64,10 +64,15 @@ public class MypackageUtils {
         List<PackageInfo> installedPackages = packageManager.getInstalledPackages(0);
         for(PackageInfo packageInfo:installedPackages){
             Appinfo appinfo=new Appinfo();
+            String packageName = packageInfo.packageName;
+            appinfo.setPackagename(packageName);
             ApplicationInfo applicationInfo = packageInfo.applicationInfo;
             Drawable drawable = applicationInfo.loadIcon(packageManager);
             appinfo.setIcon(drawable);
             CharSequence charSequence = applicationInfo.loadLabel(packageManager);
+            /*if(charSequence.toString().equals("支付宝")){
+                Log.v("hw2",packageName);
+            }*/
             appinfo.setLabel(charSequence.toString());
             int flags = applicationInfo.flags;
             if((applicationInfo.FLAG_SYSTEM&flags)==(applicationInfo.FLAG_SYSTEM)){

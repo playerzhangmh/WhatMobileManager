@@ -10,31 +10,17 @@ public class Appinfo {
     Drawable icon;
     boolean isSDcard;
     boolean isSystem;
+    String packagename;
 
     public Appinfo() {
     }
 
-    public Appinfo(String label, Drawable icon, boolean isSDcard, boolean isSystem) {
+    public Appinfo(String label, Drawable icon, boolean isSDcard, boolean isSystem, String packagename) {
         this.label = label;
         this.icon = icon;
         this.isSDcard = isSDcard;
         this.isSystem = isSystem;
-    }
-
-    public boolean isSystem() {
-        return isSystem;
-    }
-
-    public void setIsSystem(boolean isSystem) {
-        this.isSystem = isSystem;
-    }
-
-    public boolean isSDcard() {
-        return isSDcard;
-    }
-
-    public void setIsSDcard(boolean isSDcard) {
-        this.isSDcard = isSDcard;
+        this.packagename = packagename;
     }
 
     public String getLabel() {
@@ -53,6 +39,30 @@ public class Appinfo {
         this.icon = icon;
     }
 
+    public boolean isSDcard() {
+        return isSDcard;
+    }
+
+    public void setIsSDcard(boolean isSDcard) {
+        this.isSDcard = isSDcard;
+    }
+
+    public boolean isSystem() {
+        return isSystem;
+    }
+
+    public void setIsSystem(boolean isSystem) {
+        this.isSystem = isSystem;
+    }
+
+    public String getPackagename() {
+        return packagename;
+    }
+
+    public void setPackagename(String packagename) {
+        this.packagename = packagename;
+    }
+
     @Override
     public String toString() {
         return "Appinfo{" +
@@ -60,6 +70,7 @@ public class Appinfo {
                 ", icon=" + icon +
                 ", isSDcard=" + isSDcard +
                 ", isSystem=" + isSystem +
+                ", packagename='" + packagename + '\'' +
                 '}';
     }
 }

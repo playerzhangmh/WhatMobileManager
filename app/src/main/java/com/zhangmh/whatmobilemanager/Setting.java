@@ -1,24 +1,13 @@
 package com.zhangmh.whatmobilemanager;
 
-import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.XmlResourceParser;
-import android.support.annotation.XmlRes;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.util.Xml;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -26,12 +15,8 @@ import com.zhangmh.Utils.ServiceUtils;
 import com.zhangmh.application.Myapplication;
 import com.zhangmh.view.SettingItems;
 
-import org.xmlpull.v1.XmlPullParser;
-
-import java.sql.RowIdLifetime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.XMLFormatter;
 
 public class Setting extends ActionBarActivity {
 
@@ -39,6 +24,7 @@ public class Setting extends ActionBarActivity {
     private static Setting mSetting;
     private List<SettingItems> list;
     private ListView lv_setting_itemlists;
+    private SettingItems si_setting_startlockpackage;
     private SettingItems si_setting_showLocation;
 
     @Override
@@ -58,11 +44,15 @@ public class Setting extends ActionBarActivity {
         SettingItems si_setting_update = (SettingItems) itemsforsetting.findViewById(R.id.si_setting_update);
         si_setting_showLocation = (SettingItems) itemsforsetting.findViewById(R.id.si_setting_showLocation);
 
+        si_setting_startlockpackage=(SettingItems) itemsforsetting.findViewById(R.id.si_setting_startlockpackage);
         list.add(si_setting_update);
         list.add(si_setting_showLocation);
+        list.add(si_setting_startlockpackage);
         itemsforsetting.removeAllViews();
         lv_setting_itemlists = (ListView) findViewById(R.id.lv_setting_itemlists);
         lv_setting_itemlists.setAdapter(myAdapter);
+        //Button bt_setting_locationshowspace= (Button) findViewById(R.id.bt_setting_locationshowspace);
+        Log.v("hw2","listview"+lv_setting_itemlists.getWidth()+"--"+lv_setting_itemlists.getMeasuredHeight());
 
     }
 
@@ -102,10 +92,14 @@ public class Setting extends ActionBarActivity {
     protected void onRestart() {
         super.onRestart();
         //获取服务状态
-        boolean serviceAlive = ServiceUtils.isServiceAlive(this, "com.zhangmh.service.MytelenumLoctionService");
-        if(!serviceAlive){
+        boolean serviceAlive1 = ServiceUtils.isServiceAlive(this, "com.zhangmh.service.MytelenumLoctionService");
+        if(!serviceAlive1){
             si_setting_showLocation.systemStopedService();
+        }
 
+        boolean serviceAlive2 = ServiceUtils.isServiceAlive(this, "com.zhangmh.service.Mywatchappstart");
+        if(!serviceAlive2){
+            si_setting_startlockpackage.systemStopedService();
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.zhangmh.view;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,15 +7,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zhangmh.application.Myapplication;
 import com.zhangmh.service.MytelenumLoctionService;
+import com.zhangmh.service.Mywatchappstart;
 import com.zhangmh.whatmobilemanager.Home;
 import com.zhangmh.whatmobilemanager.R;
-import com.zhangmh.whatmobilemanager.Setting;
 
 /**
  * Created by coins on 2016/3/25.
@@ -103,6 +101,10 @@ public class SettingItems extends RelativeLayout implements View.OnClickListener
                 Log.v("hw2","itemtitle");
                 application.stopService(new Intent(Home.getMyapplication(), MytelenumLoctionService.class));
             }
+            if(itemtitle.equals("应用锁定")){
+                Log.v("hw2", "itemtitle");
+                application.stopService(new Intent(Home.getMyapplication(), Mywatchappstart.class));
+            }
 
             cb_setting_ischecked.setChecked(false);
             tv_setting_state.setText(offString);
@@ -115,6 +117,10 @@ public class SettingItems extends RelativeLayout implements View.OnClickListener
             if(itemtitle.equals("号码归属地")){
                 Log.v("hw2","itemtitlefalse");
                 application.startService(new Intent(Home.getMyapplication(), MytelenumLoctionService.class));
+            }
+            if(itemtitle.equals("应用锁定")){
+                Log.v("hw2","itemtitlefalse");
+                application.startService(new Intent(Home.getMyapplication(), Mywatchappstart.class));
             }
             cb_setting_ischecked.setChecked(true);
             tv_setting_state.setText(onString);

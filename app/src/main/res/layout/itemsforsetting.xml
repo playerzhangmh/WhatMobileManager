@@ -34,6 +34,7 @@
         SettingItems:onString="开启应用锁定"
         SettingItems:offString="应用锁定关闭"
         SettingItems:spKeyname="startlockpackage">
+
     </com.zhangmh.view.SettingItems>
 
 </LinearLayout>

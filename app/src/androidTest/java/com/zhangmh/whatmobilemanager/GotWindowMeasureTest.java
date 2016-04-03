@@ -1,5 +1,7 @@
 package com.zhangmh.whatmobilemanager;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
@@ -26,6 +28,18 @@ public class GotWindowMeasureTest extends AndroidTestCase {
     public void testTitleHeight(){
         int titleHeight = WindowMeasureUtils.getTitleBarHeight(getContext(),LocationShowSpaceSet.getmLocationShowSpaceSet());
         Log.v("hw2",titleHeight+"dddddddff");
+    }
+
+    public void testLabel(){//验证当在string的xml文件中，不写label，应用label为空而不是null
+        ApplicationInfo applicationInfo = null;
+        try {
+            applicationInfo = getContext().getPackageManager().getApplicationInfo("com.zhangmh.whatmobilemanager", 0);
+            CharSequence applicationLabel = getContext().getPackageManager().getApplicationLabel(applicationInfo);
+            Log.v("hw2",applicationLabel.toString()+"aaaaaaaa");
+            assertEquals(true,applicationLabel.toString().isEmpty());
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }

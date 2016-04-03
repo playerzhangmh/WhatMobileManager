@@ -1,12 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.zhangmh.whatmobilemanager.MyProcessManager">
 
-</RelativeLayout>
+    <TextView
+        style="@style/mytitlestyle"
+        android:text="进程管理"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/myStoragestle"
+            android:textSize="15dp"
+            android:singleLine="true"
+            android:text="当前手机进程数"
+            />
+        <TextView
+            style="@style/myStoragestle"
+            android:textSize="15dp"
+            android:singleLine="true"
+            android:text="可用RAM/总RAM" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/myStoragestle"
+            android:text="进程数"
+            android:id="@+id/tv_myprocessManager_processCount"
+            android:textSize="15dp"
+            />
+        <TextView
+            style="@style/myStoragestle"
+            android:textSize="15dp"
+            android:id="@+id/tv_myprocessManager_RAM"
+            android:text="RAM" />
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lv_myprocessManager_process"></ListView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#CCCCCC"
+            android:textSize="20sp"
+            android:id="@+id/tv_myprocessManager_procseenum"
+            />
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/guard_bt"
+            android:onClick="checkAll"
+            android:text="全选"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/guard_bt"
+            android:onClick="oppositeCheck"
+            android:text="反选"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/guard_bt"
+            android:onClick="cancelCheck"
+            android:text="取消"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="clearCheckedProcess"
+            android:background="@drawable/guard_bt"
+            android:text="清理"/>
+    </LinearLayout>
+
+</LinearLayout>

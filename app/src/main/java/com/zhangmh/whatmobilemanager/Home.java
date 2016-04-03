@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.zhangmh.Utils.Md5Utils;
 import com.zhangmh.application.Myapplication;
+import com.zhangmh.service.MywatchRunningProcess;
 
 public class Home extends ActionBarActivity {
     private static final String MARQUEE="欢迎使用安全卫士，我们会用心保护您的手机，让您没有后顾之忧，请您随意使用";
@@ -109,6 +110,7 @@ public class Home extends ActionBarActivity {
                    startActivity(new Intent(Home.this,MyPackageManager.class));
                    break;
                case 3:
+                   startActivity(new Intent(Home.this,MyProcessManager.class));
                    break;
                case 4:
                    break;
@@ -224,6 +226,7 @@ public class Home extends ActionBarActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        stopService(new Intent(this, MywatchRunningProcess.class));
        Toast.makeText(this,"我们将继续为您服务",Toast.LENGTH_SHORT).show();
     }
 }

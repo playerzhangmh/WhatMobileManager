@@ -95,6 +95,7 @@ public class Mywatchappstart extends Service {
         Log.v("hw2", "onDestroy");
 
         flag=false;
+        unregisterReceiver(mScreenReceiver);
     }
 
 
@@ -106,4 +107,5 @@ public class Mywatchappstart extends Service {
                     .commit();
         }
     };
+
 }

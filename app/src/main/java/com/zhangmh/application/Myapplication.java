@@ -1,11 +1,24 @@
 package com.zhangmh.application;
 
+import android.app.ActivityManager;
 import android.app.Application;
+import android.appwidget.AppWidgetManager;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.widget.RemoteViews;
 
+import com.zhangmh.Utils.MyProcessUtils;
 import com.zhangmh.service.MytelenumLoctionService;
+import com.zhangmh.service.MywatchRunningProcess;
 import com.zhangmh.service.Mywatchappstart;
+import com.zhangmh.whatmobilemanager.R;
+import com.zhangmh.widget.MyprocessWidgetProvider;
+
+import java.util.List;
 
 /**
  * Created by coins on 2016/3/25.
@@ -32,6 +45,12 @@ public class Myapplication extends Application {
         if(startlockpackage){
             startService(new Intent(this, Mywatchappstart.class));
         }
+        startService(new Intent(this, MywatchRunningProcess.class));
+
+        IntentFilter filter=new IntentFilter();
+        filter.addAction("com.cskaoyan.widgetupdate");
+        filter.addAction("com.zhangmh.watchProcess");
+        registerReceiver(receiver,filter);
     }
 
 
@@ -54,5 +73,37 @@ public class Myapplication extends Application {
         tempPackage_sp.edit()
                 .putBoolean(packagename,true)
                 .commit();
+    }
+
+    BroadcastReceiver receiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String action = intent.getAction();
+            if(!action.equals("com.zhangmh.watchProcess")){
+                ActivityManager am= (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+                List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = am.getRunningAppProcesses();
+                for(ActivityManager.RunningAppProcessInfo runningAppProcessInfo:runningAppProcesses){
+                    String processName = runningAppProcessInfo.processName;
+                    if(getPackageName().equals(processName)){
+                        continue;
+                    }
+                    am.killBackgroundProcesses(processName);
+                }
+            }
+
+            AppWidgetManager instance = AppWidgetManager.getInstance(context);
+            ComponentName name=new ComponentName(context, MyprocessWidgetProvider.class);
+            RemoteViews remoteViews=new RemoteViews(getPackageName(), R.layout.wiggetprocess);
+            remoteViews.setTextViewText(R.id.tv_processwidget_count, "当前运行的进程数" + MyProcessUtils.getRunningProcess(context));
+            remoteViews.setTextViewText(R.id.tv_processwidget_memory, "可用内存:" + MyProcessUtils.getAvailableRam(context));
+            instance.updateAppWidget(name, remoteViews);
+        }
+    };
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        unregisterReceiver(receiver);
     }
 }

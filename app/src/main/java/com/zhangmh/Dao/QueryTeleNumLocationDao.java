@@ -23,14 +23,24 @@ public class QueryTeleNumLocationDao {
                 address_tb.moveToNext();
                 int city = address_tb.getColumnIndex("city");
                 String citys = address_tb.getString(city);
-                String province=citys.substring(0,citys.indexOf("省"));
-                citys=citys.replace('省', ' ');
+                int cardtype = address_tb.getColumnIndex("cardtype");
+                String cardtypes = address_tb.getString(cardtype);
                 if(citys.lastIndexOf("市")==(citys.length()-1)){
                     citys=citys.substring(0,citys.length()-1);
                 }
-                int cardtype = address_tb.getColumnIndex("cardtype");
-                String cardtypes = address_tb.getString(cardtype);
-                cardtypes=cardtypes.substring(cardtypes.indexOf(province)+province.length(),cardtypes.length()-1);
+                if(citys.indexOf("省")>-1){
+                    String province=citys.substring(0,citys.indexOf("省"));
+                    citys=citys.replace('省', ' ');
+                    cardtypes=cardtypes.substring(cardtypes.indexOf(province) + province.length(), cardtypes.length() - 1);
+
+                }else {
+                    String _city = citys.substring(0, citys.indexOf("市"));
+                    citys=_city;
+                    cardtypes=cardtypes.substring(cardtypes.indexOf(_city)+_city.length(),cardtypes.length()-1);
+                }
+
+
+
                 location=citys+" "+cardtypes;
                 //此处将数据做处理后拿出
             }else {

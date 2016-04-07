@@ -2,7 +2,6 @@ package com.zhangmh.whatmobilemanager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,13 +9,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Bundle;
-import android.test.UiThreadTest;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,7 +36,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 
 public class SplashActivity extends Activity {
 
@@ -65,13 +61,15 @@ public class SplashActivity extends Activity {
         SharedPreferences setting_sp = application.getSetting_sp();
         boolean autoUpdate = setting_sp.getBoolean("autoUpdate", true);
         if(autoUpdate){
+            copyDB("naddress.db");
+            copyDB("antivirus.db");
             getLatestVersion();
         }else {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        Thread.sleep(3000);
+                        Thread.sleep(5000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -81,16 +79,22 @@ public class SplashActivity extends Activity {
                     //5s后跳到主页，这里有代码
                 }
             }).start();
+          /*  new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //在这段时间里去把asset目录下的dbcopy到应用目录下
 
-            //在这段时间里去把asset目录下的dbcopy到应用目录下
-            copyDB();
+                }
+            }).start();*/
+
+
         }
 
 
     }
 
-    private void copyDB() {
-        File file=new File(getFilesDir()+"/naddress.db");
+    private void copyDB(String db) {
+        File file=new File(getFilesDir()+"/"+db);
         if(file.exists()){
             return;
         }
@@ -98,7 +102,7 @@ public class SplashActivity extends Activity {
         AssetManager assets = getAssets();
         InputStream open =null;
         try {
-            open = assets.open("naddress.db");
+            open = assets.open(db);
             fos=new FileOutputStream(file);
             byte[] b=new byte[1024];
             int len=-1;

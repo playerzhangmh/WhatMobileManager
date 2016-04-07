@@ -13,7 +13,11 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:name="com.zhangmh.application.Myapplication"
         android:allowBackup="true"
@@ -86,17 +90,30 @@
 
         <service android:name="com.zhangmh.service.Mywatchappstart" />
 
-        <activity android:name=".MyProcessManager"></activity>
-        <service android:name="com.zhangmh.service.MywatchRunningProcess"/>
+        <activity android:name=".MyProcessManager" />
 
+        <service android:name="com.zhangmh.service.MywatchRunningProcess" />
 
-        <receiver android:name="com.zhangmh.widget.MyprocessWidgetProvider" >
+        <receiver android:name="com.zhangmh.widget.MyprocessWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
+
+            <meta-data
+                android:name="android.appwidget.provider"
                 android:resource="@xml/example_appwidget_info" />
         </receiver>
+
+        <activity android:name=".ClearCache" />
+        <activity android:name=".KillVirus" />
+        <activity android:name=".CommuniGuard" />
+
+        <service
+            android:name="com.zhangmh.service.InterceptCallservice"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".TrafficStatistic"></activity>
     </application>
 
 </manifest>

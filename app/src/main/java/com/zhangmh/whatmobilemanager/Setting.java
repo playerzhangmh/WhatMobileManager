@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -40,7 +39,7 @@ public class Setting extends ActionBarActivity {
 
         list=new ArrayList<>();
         //获取专门存放自定义组合控件的layout文件，将里面的自定义控件都加入到listview中
-        LinearLayout itemsforsetting = (LinearLayout) View.inflate(this, R.layout.itemsforsetting,null);
+       LinearLayout itemsforsetting = (LinearLayout) View.inflate(this, R.layout.itemsforsetting,null);
         SettingItems si_setting_update = (SettingItems) itemsforsetting.findViewById(R.id.si_setting_update);
         si_setting_showLocation = (SettingItems) itemsforsetting.findViewById(R.id.si_setting_showLocation);
 
@@ -51,8 +50,6 @@ public class Setting extends ActionBarActivity {
         itemsforsetting.removeAllViews();
         lv_setting_itemlists = (ListView) findViewById(R.id.lv_setting_itemlists);
         lv_setting_itemlists.setAdapter(myAdapter);
-        //Button bt_setting_locationshowspace= (Button) findViewById(R.id.bt_setting_locationshowspace);
-        Log.v("hw2","listview"+lv_setting_itemlists.getWidth()+"--"+lv_setting_itemlists.getMeasuredHeight());
 
     }
 

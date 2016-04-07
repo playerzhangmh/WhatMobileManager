@@ -225,6 +225,7 @@ public class MyProcessManager extends Activity {
             }else {
                 tv_myprocessManager_procseenum.setText("用户进程("+userprocesslist.size()+")个");
             }
+
         }
     };
 
@@ -266,6 +267,7 @@ public class MyProcessManager extends Activity {
             public void run() {
                 refresh();
                 ActivityManager am= (ActivityManager) getSystemService(MyProcessManager.ACTIVITY_SERVICE);
+                Log.v("clearCheckedProcess",checkedProcesslist.toString());
                 for(ProcessInfo processInfo:checkedProcesslist){
                     String packagename = processInfo.getPackagename();
                     am.killBackgroundProcesses(packagename);
@@ -304,6 +306,12 @@ public class MyProcessManager extends Activity {
                     break;
                 case 2:
                     //service检测到
+                    //此处有bug，由于service每隔2s发一个广播过来，将所有的check都置为了false，所以导致手动选取出问题了
+                    for (ProcessInfo processInfo:allrunningprocesslist){
+                        if(processInfo.isChecked()){
+                            return;
+                        }
+                    }
                     allrunningprocesslist=MyProcessUtils.getRunningProcessList(MyProcessManager.this);
                     refresh();
                     adapter.notifyDataSetChanged();
@@ -323,5 +331,14 @@ public class MyProcessManager extends Activity {
         Intent intent=new Intent("com.zhangmh.myProcessManager");
         intent.putExtra("nosendBroadflag",false);
         sendBroadcast(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        for (ProcessInfo processInfo:allrunningprocesslist){
+            processInfo.setIsChecked(false);
+        }
+        adapter.notifyDataSetChanged();
     }
 }

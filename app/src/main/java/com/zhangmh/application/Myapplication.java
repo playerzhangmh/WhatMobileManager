@@ -12,8 +12,8 @@ import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 
 import com.zhangmh.Utils.MyProcessUtils;
+import com.zhangmh.service.InterceptCallservice;
 import com.zhangmh.service.MytelenumLoctionService;
-import com.zhangmh.service.MywatchRunningProcess;
 import com.zhangmh.service.Mywatchappstart;
 import com.zhangmh.whatmobilemanager.R;
 import com.zhangmh.widget.MyprocessWidgetProvider;
@@ -45,8 +45,8 @@ public class Myapplication extends Application {
         if(startlockpackage){
             startService(new Intent(this, Mywatchappstart.class));
         }
-        startService(new Intent(this, MywatchRunningProcess.class));
-
+        //startService(new Intent(this, MywatchRunningProcess.class));
+        startService(new Intent(this, InterceptCallservice.class));
         IntentFilter filter=new IntentFilter();
         filter.addAction("com.cskaoyan.widgetupdate");
         filter.addAction("com.zhangmh.watchProcess");

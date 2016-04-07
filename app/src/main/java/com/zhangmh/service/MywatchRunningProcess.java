@@ -45,8 +45,6 @@ public class MywatchRunningProcess extends IntentService {
             List<ProcessInfo> currentrunningProcessList = MyProcessUtils.getRunningProcessList(this);
             if(!runningProcessList.toString().equals(currentrunningProcessList.toString())&&!nosendBroadflag){
                 Intent intent1=new Intent("com.zhangmh.watchProcess");
-               /* intent1.putExtra("processcount",runningProcessList.size());
-                intent1.putExtra("availableram",MyProcessUtils.getAvailableRam(this));*/
                 sendBroadcast(intent1);
                 runningProcessList=currentrunningProcessList;
             }

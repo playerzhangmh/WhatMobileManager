@@ -105,6 +105,7 @@ public class Home extends ActionBarActivity {
 
                    break;
                case 1:
+                   startActivity(new Intent(Home.this,CommuniGuard.class));
                    break;
                case 2:
                    startActivity(new Intent(Home.this,MyPackageManager.class));
@@ -113,10 +114,13 @@ public class Home extends ActionBarActivity {
                    startActivity(new Intent(Home.this,MyProcessManager.class));
                    break;
                case 4:
+                   startActivity(new Intent(Home.this,TrafficStatistic.class));
                    break;
                case 5:
+                   startActivity(new Intent(Home.this,KillVirus.class));
                    break;
                case 6:
+                   startActivity(new Intent(Home.this,ClearCache.class));
                    break;
                case 7:
                    startActivity(new Intent(Home.this,AdvanceTool.class));
